@@ -16,9 +16,14 @@ Z = np.random.standard_normal(N)
 daily_returns = np.exp((mu - 0.5 * sigma**2) * dt + sigma * np.sqrt(dt) * Z)
 price_path = S0 * np.cumprod(daily_returns)
 
-# 画图
-plt.plot(price_path, color='blue')
-plt.title("Simulated Stock Price")
+# 把之前画图的部分替换成下面这段：
+for _ in range(50):  # 循环50次
+    Z = np.random.standard_normal(N)
+    daily_returns = np.exp((mu - 0.5 * sigma**2) * dt + sigma * np.sqrt(dt) * Z)
+    price_path = S0 * np.cumprod(daily_returns)
+    plt.plot(price_path, linewidth=0.8, alpha=0.7) # 线条变细，加点透明度
+
+plt.title("50 Simulated Stock Paths")
 plt.xlabel("Trading Days")
 plt.ylabel("Price")
 plt.show()
