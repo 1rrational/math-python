@@ -29,9 +29,31 @@ class Polynomial:
             new_coeffs.append(self.coeffs[j] + other.coeffs[j])
         return Polynomial(new_coeffs)
 
+    def __sub__(self, other):
+        # 目标：实现两个多项式相减，返回一个新的 Polynomial 对象
+        max_len = max(len(self.coeffs), len(other.coeffs))
+        new_coeffs = []
+        if len(self.coeffs) < max_len:
+            self.coeffs += [0] * (max_len - len(self.coeffs))
+        elif len(other.coeffs) < max_len:
+            other.coeffs += [0] * (max_len - len(other.coeffs))
+        for j in range(max_len):
+            new_coeffs.append(self.coeffs[j] - other.coeffs[j])
+        return Polynomial(new_coeffs)
+
+    def derivative(self):
+        new_coeffs = []
+        for i in range(1, len(self.coeffs)):
+            new_coeffs.append(self.coeffs[i] * i)
+        return Polynomial(new_coeffs)
+
 # 你的测试代码
 p1 = Polynomial([1, 2, 3])
 p2 = Polynomial([2, 2, 2])
 print(p1)           # 应该输出 1 + 2x + 3x^2
 p3 = p1 + p2
 print(p3)           # 应该输出 3 + 4x + 5x^2
+
+p = Polynomial([1, 2, 3])
+print("原多项式:", p)       # 应该输出 1 + 2x + 3x^2
+print("求导后:", p.derivative())  # 应该输出 2 + 6x
