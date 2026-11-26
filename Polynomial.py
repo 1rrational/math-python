@@ -47,6 +47,20 @@ class Polynomial:
             new_coeffs.append(self.coeffs[i] * i)
         return Polynomial(new_coeffs)
 
+    def __mul__(self, other):
+        # 结果的长度是两个多项式长度之和减 1
+        new_len = len(self.coeffs) + len(other.coeffs) - 1
+        # 先建一个全为 0 的新列表
+        new_coeffs = [0] * new_len
+        
+        # 两个 for 循环遍历所有系数对
+        for i in range(len(self.coeffs)):
+            for j in range(len(other.coeffs)):
+                # i*j 对应的结果，放在 i+j 的位置上
+                new_coeffs[i + j] += self.coeffs[i] * other.coeffs[j]
+                
+        return Polynomial(new_coeffs)
+
 # 你的测试代码
 p1 = Polynomial([1, 2, 3])
 p2 = Polynomial([2, 2, 2])
@@ -57,3 +71,7 @@ print(p3)           # 应该输出 3 + 4x + 5x^2
 p = Polynomial([1, 2, 3])
 print("原多项式:", p)       # 应该输出 1 + 2x + 3x^2
 print("求导后:", p.derivative())  # 应该输出 2 + 6x
+
+p1 = Polynomial([1, 2])      # 1 + 2x
+p2 = Polynomial([3, 4])      # 3 + 4x
+print("乘法测试:", p1 * p2)   # 看看是不是 3 + 10x + 8x^2
